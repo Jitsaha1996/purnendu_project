@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 to Blob and Save as Text File</title>
+</head>
+<body>
+
+<script>
+// Function to convert Base64 to Blob
+function base64ToBlob(base64String, contentType = '') {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteArrays.push(byteCharacters.charCodeAt(i));
+    }
+
+    const byteArray = new Uint8Array(byteArrays);
+    return new Blob([byteArray], { type: contentType });
+}
+
+// Function to save Blob as a text file
+function saveBlobAsTextFile(blob, fileName) {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+}
+
+// Example Base64 string of a text file
+const base64TextFile = "SGVsbG8gd29ybGQ=";  // "Hello world"
+
+// Specify the content type (text/plain for a text file)
+const contentType = "text/plain";
+
+// Convert Base64 to Blob
+const blob = base64ToBlob(base64TextFile, contentType);
+
+// Save Blob as a text file
+saveBlobAsTextFile(blob, "example.txt");
+</script>
+
+</body>
+</html>
